@@ -1,55 +1,67 @@
+/* eslint-disable import/extensions */
 // Import all values from data.js to be used in this file.
 import {
   BOOKS_PER_PAGE, authors, genres, books,
-} from './data';
+} from './data.js';
 
 // Import all values from functions.js to be used in this file.
 import {
-  elements, day, night, createBookElements, addSelectOptions, clearList,
-} from './functions';
+  elements, day, night, toggleOverlay,
+  createBookElements, addSelectOptions, clearList,
+} from './functions.js';
 
 /*
-totalBooksShown keeps track of the books displayed on the page and is
+TOTAL_BOOKS_SHOWN keeps track of the books displayed on the page and is
 incremented by 1 each time a new book is added. */
-let totalBooksShown = 0;
+let TOTAL_BOOKS_SHOWN = 0;
 
-// "fragment" variable houses each book element on the page.
-const fragment = document.createDocumentFragment();
+// "FRAGMENT" variable houses each book element on the page.
+const FRAGMENT = document.createDocumentFragment();
+
+/**
+ * A function that Iterates through any book array that's passed in and runs the
+ * "createBookElements" function for each book object. It then appends each book element
+ * to "fragment" and increments "totalBooksShown" by 1.
+ *
+ * @param {Array} bookArray
+ */
+const iterateAndAdd = (bookArray) => {
+  // eslint-disable-next-line
+  for (const book of bookArray) {
+    const newBook = createBookElements(book);
+    FRAGMENT.appendChild(newBook);
+    TOTAL_BOOKS_SHOWN += 1;
+  }
+  // Append new book fragment to the DOM.
+  elements.main.items.appendChild(FRAGMENT);
+};
 
 /**
  * A handler function that adds 36 books to the 'data-list-items' element on the
  * page whenever it is run. It houses the array "extractedBooks" that contains
  * 36 book objects from the "books" array. It then uses a for loop to iterate
  * through the "extractedBooks" array and runs "createBookElements" for each
- * book. It then appends each book element to the "fragment" variable and
- * increment the "totalBooksShown" variable by 1. Finally, it appends the
+ * book. It then appends each book element to the "FRAGMENT" variable and
+ * increment the "TOTAL_BOOKS_SHOWN" variable by 1. Finally, it appends the
  * fragment to the 'data-list-items' element
  */
 const handleAddBooks = () => {
   /*
   This variable stores all the books that should be added to the page whenever
   "handleAddBooks" is run, and is defined each time that happens. Since
-  "totalBooksShown" is incremented by 1 with the addition of each book, the
+  "TOTAL_BOOKS_SHOWN" is incremented by 1 with the addition of each book, the
   slice() method will constantly retrieve new books until there are none left.
   */
-  const extractedBooks = books.slice(totalBooksShown, totalBooksShown + BOOKS_PER_PAGE);
+  const extractedBooks = books.slice(TOTAL_BOOKS_SHOWN, TOTAL_BOOKS_SHOWN + BOOKS_PER_PAGE);
 
   /*
   Iterate through "extractedBooks" and run "createBookElements" function for
-  each book object. Append each book element to "fragment" and increment
-  "totalBooksShown" by 1. */
-  // eslint-disable-next-line
-  for (const bookObj of extractedBooks) {
-    // Save function result to a variable for clarity.
-    const newBook = createBookElements(bookObj);
-    fragment.appendChild(newBook);
-    totalBooksShown += 1;
-  }
+  each book object. Append each book element to "FRAGMENT" and increment
+  "TOTAL_BOOKS_SHOWN" by 1. */
+  iterateAndAdd(extractedBooks);
 
-  // Append fragment to 'data-list-items' element.
-  elements.main.items.appendChild(fragment);
   // Update "data-list-button" to reflect the number of book left.
-  elements.main.button.innerText = `Show more (${books.length - totalBooksShown})`;
+  elements.main.button.innerText = `Show more (${books.length - TOTAL_BOOKS_SHOWN})`;
 };
 
 /**
@@ -109,15 +121,8 @@ const handlePreview = (event) => {
  * A handler that opens and closes the search overlay.
  */
 const handleSearchToggle = () => {
-  // Set the search overlay button to a variable for convenience
-  const isSearchOpen = elements.search.overlay;
-
   // Check if overlay is open and close if true, open if not.
-  if (isSearchOpen.open) {
-    isSearchOpen.open = false;
-  } else {
-    isSearchOpen.open = true;
-  }
+  toggleOverlay(elements.search.overlay);
 };
 
 /**
@@ -129,16 +134,14 @@ const handleSearchToggle = () => {
  */
 const handleSearchBooks = (event) => {
   event.preventDefault();
+  // Get "title", "genre" "author" values from element object.
+  const { title, genre, author } = elements.search;
   // Get title value and save to a variable
-  const titleValue = elements.search.title.value;
-  // Get genre "select" element
-  const genreElement = elements.search.genre;
-  // Get author "select" element
-  const authorElement = elements.search.author;
+  const titleValue = title.value;
   // Get selected "option" element
-  const selectedGenre = genreElement.options[genreElement.selectedIndex];
+  const selectedGenre = genre.options[genre.selectedIndex];
   // Get selected "option" element
-  const selectedAuthor = authorElement.options[authorElement.selectedIndex];
+  const selectedAuthor = author.options[author.selectedIndex];
   // Get id value of selected genre element
   const genreId = selectedGenre.getAttribute('data-id');
   // Get id value of selected author element
@@ -151,7 +154,7 @@ const handleSearchBooks = (event) => {
 
   /*
   Check if the "books" array holds any of the given inputs and if so, save
-  those books to thier respective variables. */
+  those books to their respective variables. */
   if (genreId) {
     matchingGenreBooks = books.filter((book) => book.genres.includes(genreId));
   } else {
@@ -179,25 +182,19 @@ const handleSearchBooks = (event) => {
   // Run clearList to remove previous books from the "data-list-items" element.
   clearList();
 
-  // Re-initialise totalBooksShown to 0.
-  totalBooksShown = 0;
+  // Re-initialise TOTAL_BOOKS_SHOWN to 0.
+  TOTAL_BOOKS_SHOWN = 0;
 
-  // Loop through matchingBooks and create elements for each book.
-  // eslint-disable-next-line
-  for (const book of matchingBooks) {
-    const newBook = createBookElements(book);
-    fragment.appendChild(newBook);
-    totalBooksShown += 1;
-  }
-
-  // Append new book fragment to the DOM.
-  elements.main.items.appendChild(fragment);
+  /*
+  Loop through matchingBooks, create elements for each book, a fragment for
+  the elements and append new book fragment to the DOM. */
+  iterateAndAdd(matchingBooks);
 
   /*
   This conditional checks how many books are being displayed and updates
   the show more buttom accordingly, either changing its text or disabling it. */
-  if (totalBooksShown > 0) {
-    elements.main.button.innerText = `Show more (${matchingBooks.length - totalBooksShown})`;
+  if (TOTAL_BOOKS_SHOWN > 0) {
+    elements.main.button.innerText = `Show more (${matchingBooks.length - TOTAL_BOOKS_SHOWN})`;
     elements.main.message.classList.remove('list__message_show');
   } else {
     elements.main.button.disabled = true;
@@ -212,15 +209,8 @@ const handleSearchBooks = (event) => {
  * A handler that opens and closes the theme overlay.
  */
 const handleThemeSettings = () => {
-  // Set the theme overlay button to a variable for convenience
-  const areSettingsOpen = elements.settings.overlay;
-
   // Check if overlay is open and close if true, open if not.
-  if (areSettingsOpen.open) {
-    areSettingsOpen.open = false;
-  } else {
-    areSettingsOpen.open = true;
-  }
+  toggleOverlay(elements.settings.overlay);
 };
 
 /**

@@ -1,7 +1,13 @@
+/* eslint-disable no-restricted-syntax */
+/* eslint-disable import/extensions */
+// @ts-check
 // Import all values from data.js to be used in this file.
 import {
   authors,
-} from './data';
+} from './data.js';
+
+// // "FRAGMENT" variable houses each book element on the page.
+// const FRAGMENT = document.createDocumentFragment();
 
 /**
  * This object gets and houses all the html elements used in this file for easy
@@ -60,6 +66,21 @@ handleAddTheme function */
 export const night = {
   dark: '255, 255, 255',
   light: '10, 10, 20',
+};
+
+/**
+ * A function that opens and closes the provided overlay.
+ *
+ * @param {Object} overlay
+ */
+export const toggleOverlay = (overlay) => {
+  const overlayOpen = overlay;
+
+  if (overlayOpen.open) {
+    overlayOpen.open = false;
+  } else {
+    overlayOpen.open = true;
+  }
 };
 
 /**
@@ -144,3 +165,24 @@ export const clearList = () => {
     }
   }
 };
+
+// /**
+//  * A function that Iterates through any book array that's passed in and runs the
+//  * "createBookElements" function for each book object. It then appends each book element
+//  * to "fragment" and increments "totalBooksShown" by 1.
+//  *
+//  * @param {Array} bookArray
+//  * @param {Number} total
+//  */
+// export const iterateAndAdd = (bookArray, total) => {
+//   // eslint-disable-next-line
+//   for (const book of bookArray) {
+//     const newBook = createBookElements(book);
+//     FRAGMENT.appendChild(newBook);
+//     // eslint-disable-next-line
+//     total += 1;
+//   }
+
+//   // Append new book fragment to the DOM.
+//   elements.main.items.appendChild(FRAGMENT);
+// };
