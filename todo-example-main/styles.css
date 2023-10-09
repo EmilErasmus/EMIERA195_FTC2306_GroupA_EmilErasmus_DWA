@@ -1,0 +1,136 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: #eee;
+  font-family: Roboto, Arial, sans-serif;
+  padding: 1rem;
+}
+
+.button {
+  height: 3rem;
+  padding: 0 3rem;
+  background: black;
+  color: white;
+  border-radius: 8px;
+  border-width: 0;
+  cursor: pointer;
+}
+
+.app {
+  max-width: 40rem;
+  margin: 0 auto;
+}
+
+.app__list {
+  padding: 0;
+}
+
+.task {
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  background: rgba(255, 255, 255, 1);
+  height: 4rem;
+  border-radius: 6px;
+  display: flex;
+  margin-bottom: 0.5rem;
+}
+
+.task__check {
+  width: 5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.task__check:hover {
+  background: rgba(0, 50, 200, 0.1);
+}
+
+.task__input {
+  height: 2rem;
+  width: 2rem;
+  border-radius: 16px;
+  cursor: pointer;
+}
+
+.task__icon {
+  height: 1.5rem;
+  width: 1.5rem;
+}
+
+.task__title {
+  height: 4rem;
+  width: 100%;
+  background: none;
+  text-align: left;
+  border-width: 0;
+  padding: 0 1rem;
+  font-size: 1rem;
+  cursor: pointer;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  border-left: 1px solid grey;
+}
+
+.task__title:hover {
+  background: rgba(0, 50, 200, 0.1);
+}
+
+.overlay {
+  border-width: 0;
+  position: fixed;
+  top: 4rem;
+  max-width: 30rem;
+  width: 90%;
+  border-radius: 16px;
+  z-index: 10;
+  background-color: rgba(255, 255, 255, 1);
+  padding: 1rem 3rem;
+
+  box-shadow: 0px 3px 3px -2px rgba(0, 0, 0, 0.2),
+    0px 3px 4px 0px rgba(0, 0, 0, 0.14), 0px 1px 8px 0px rgba(0, 0, 0, 0.12);
+}
+
+.overlay__title {
+  text-align: center;
+}
+
+.overlay__row {
+  padding-top: 1rem;
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.overlay__field {
+  display: block;
+  padding-bottom: 1rem;
+}
+
+.overlay__input {
+  width: 100%;
+  background: rgba(0, 0, 0, 0.05);
+  height: 3rem;
+  padding: 0 1rem;
+  font-size: 1rem;
+  border-radius: 6px;
+  border-width: 0;
+}
+
+.backdrop {
+  display: none;
+  background: rgba(0, 0, 0, 0.3);
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100vw;
+}
+
+.overlay[open] ~ .backdrop {
+  display: block;
+}
