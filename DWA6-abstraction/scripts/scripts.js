@@ -1,4 +1,5 @@
 /* eslint-disable import/extensions */
+
 // Import all values from data.js to be used in this file.
 import {
   BOOKS_PER_PAGE, authors, genres, books,
@@ -75,45 +76,47 @@ const handleAddBooks = () => {
 const handlePreview = (event) => {
   /* Select the div with a class name of "preview" that's closest to the mouse
   click and save to a variable. */
-  const targetOrder = event.target.closest('.preview');
+  if (event.target) {
+    const targetOrder = event.target.closest('.preview');
 
-  // Select "[data-list-active]" overlay and save to variable for convenience.
-  const isPreviewOpen = elements.preview.overlay;
+    // Select "[data-list-active]" overlay and save to variable for convenience.
+    const isPreviewOpen = elements.preview.overlay;
 
-  /* Check if the isPreviewOpen variable's "open" property is true and set to
-  false if so. This closes the overlay */
-  if (isPreviewOpen.open) {
-    isPreviewOpen.open = false;
-  }
-
-  /*
-  Check if target order exists and if so, perform the following operations. */
-  if (targetOrder) {
-    // Display preview overlay.
-    isPreviewOpen.open = true;
-
-    // Get target order image element and save to a variable.
-    const previewImage = targetOrder.querySelector('.preview__image');
-    // Get text "preview__title" element's inner text.
-    const previewTitle = targetOrder.querySelector('.preview__title').innerText;
-    // Get text "previewAuthor" element's inner text.
-    const previewAuthor = targetOrder.querySelector('.preview__author').innerText;
-    // Get text "previewDescription" element's inner text.
-    const previewDescription = targetOrder.querySelector('#description').innerText;
-    // Get text "previewDateText" element's inner text.
-    const previewDateText = targetOrder.querySelector('#date').innerText;
-
-    // Get the src of previewImage
-    const previewSrc = previewImage.src;
+    /* Check if the isPreviewOpen variable's "open" property is true and set to
+    false if so. This closes the overlay */
+    if (isPreviewOpen.open) {
+      isPreviewOpen.open = false;
+    }
 
     /*
-    Set all of the values in each element inside the preview overlay to
-    display the values in the selected book */
-    elements.preview.image.src = previewSrc;
-    elements.preview.blur.src = previewSrc;
-    elements.preview.title.innerText = previewTitle;
-    elements.preview.subtitle.innerText = `${previewAuthor} (${previewDateText.slice(0, 4)})`;
-    elements.preview.description.innerText = previewDescription;
+    Check if target order exists and if so, perform the following operations. */
+    if (targetOrder) {
+      // Display preview overlay.
+      isPreviewOpen.open = true;
+
+      // Get target order image element and save to a variable.
+      const previewImage = targetOrder.querySelector('.preview__image');
+      // Get text "preview__title" element's inner text.
+      const previewTitle = targetOrder.querySelector('.preview__title').innerText;
+      // Get text "previewAuthor" element's inner text.
+      const previewAuthor = targetOrder.querySelector('.preview__author').innerText;
+      // Get text "previewDescription" element's inner text.
+      const previewDescription = targetOrder.querySelector('#description').innerText;
+      // Get text "previewDateText" element's inner text.
+      const previewDateText = targetOrder.querySelector('#date').innerText;
+
+      // Get the src of previewImage
+      const previewSrc = previewImage.src;
+
+      /*
+      Set all of the values in each element inside the preview overlay to
+      display the values in the selected book */
+      elements.preview.image.src = previewSrc;
+      elements.preview.blur.src = previewSrc;
+      elements.preview.title.innerText = previewTitle;
+      elements.preview.subtitle.innerText = `${previewAuthor} (${previewDateText.slice(0, 4)})`;
+      elements.preview.description.innerText = previewDescription;
+    }
   }
 };
 
