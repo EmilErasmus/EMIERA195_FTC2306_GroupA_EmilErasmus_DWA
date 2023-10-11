@@ -1,4 +1,5 @@
 /* eslint-disable import/extensions */
+// @ts-check
 
 // Import all values from data.js to be used in this file.
 import {
@@ -22,29 +23,46 @@ const FRAGMENT = document.createDocumentFragment();
 /**
  * A function that Iterates through any book array that's passed in and runs the
  * "createBookElements" function for each book object. It then appends each book element
- * to "fragment" and increments "totalBooksShown" by 1.
+ * to "fragment" and increments "TOTAL_BOOKS_SHOWN" by 1.
  *
  * @param {Array} bookArray
  */
 const iterateAndAdd = (bookArray) => {
-  // eslint-disable-next-line
-  for (const book of bookArray) {
+  bookArray.forEach((book) => {
     const newBook = createBookElements(book);
     FRAGMENT.appendChild(newBook);
     TOTAL_BOOKS_SHOWN += 1;
-  }
+  });
+
   // Append new book fragment to the DOM.
   elements.main.items.appendChild(FRAGMENT);
 };
 
 /**
+ * A function that updates the "Show more" button based on the number of books
+ * displayed on the page.
+ *
+ * @param {Array} hiddenBooks - Books that have not yet been added to the DOM.
+ */
+const updateShowMore = (hiddenBooks) => {
+  if (TOTAL_BOOKS_SHOWN > 0) {
+    elements.main.button.innerText = `Show more (${hiddenBooks.length - TOTAL_BOOKS_SHOWN})`;
+    elements.main.message.classList.remove('list__message_show');
+    if (hiddenBooks.length === TOTAL_BOOKS_SHOWN) {
+      elements.main.button.disabled = true;
+    }
+  } else {
+    elements.main.button.disabled = true;
+    elements.main.message.classList.add('list__message_show');
+    elements.main.button.innerText = 'Show more (0)';
+  }
+};
+
+/**
  * A handler function that adds 36 books to the 'data-list-items' element on the
  * page whenever it is run. It houses the array "extractedBooks" that contains
- * 36 book objects from the "books" array. It then uses a for loop to iterate
- * through the "extractedBooks" array and runs "createBookElements" for each
- * book. It then appends each book element to the "FRAGMENT" variable and
- * increment the "TOTAL_BOOKS_SHOWN" variable by 1. Finally, it appends the
- * fragment to the 'data-list-items' element
+ * 36 book objects from the "books" array. It then runs "iterateAndAdd" to
+ * iterate through the "extractedBooks" array and append each book to the DOM.
  */
 const handleAddBooks = () => {
   /*
@@ -56,13 +74,11 @@ const handleAddBooks = () => {
   const extractedBooks = books.slice(TOTAL_BOOKS_SHOWN, TOTAL_BOOKS_SHOWN + BOOKS_PER_PAGE);
 
   /*
-  Iterate through "extractedBooks" and run "createBookElements" function for
-  each book object. Append each book element to "FRAGMENT" and increment
-  "TOTAL_BOOKS_SHOWN" by 1. */
+  Run function to iterate through "extractedBooks" and append to DOM */
   iterateAndAdd(extractedBooks);
 
-  // Update "data-list-button" to reflect the number of book left.
-  elements.main.button.innerText = `Show more (${books.length - TOTAL_BOOKS_SHOWN})`;
+  // Update "data-list-button" (Show more) to reflect the number of books left.
+  updateShowMore(books);
 };
 
 /**
@@ -77,6 +93,7 @@ const handlePreview = (event) => {
   /* Select the div with a class name of "preview" that's closest to the mouse
   click and save to a variable. */
   if (event.target) {
+    // @ts-ignore
     const targetOrder = event.target.closest('.preview');
 
     // Select "[data-list-active]" overlay and save to variable for convenience.
@@ -121,10 +138,9 @@ const handlePreview = (event) => {
 };
 
 /**
- * A handler that opens and closes the search overlay.
+ * A handler that calls "toggleOverlay" to open or close the search overlay.
  */
 const handleSearchToggle = () => {
-  // Check if overlay is open and close if true, open if not.
   toggleOverlay(elements.search.overlay);
 };
 
@@ -194,25 +210,18 @@ const handleSearchBooks = (event) => {
   iterateAndAdd(matchingBooks);
 
   /*
-  This conditional checks how many books are being displayed and updates
+  This function checks how many books are being displayed and updates
   the show more buttom accordingly, either changing its text or disabling it. */
-  if (TOTAL_BOOKS_SHOWN > 0) {
-    elements.main.button.innerText = `Show more (${matchingBooks.length - TOTAL_BOOKS_SHOWN})`;
-    elements.main.message.classList.remove('list__message_show');
-  } else {
-    elements.main.button.disabled = true;
-    elements.main.message.classList.add('list__message_show');
-  }
+  updateShowMore(matchingBooks);
 
   // Call handleSearchToggle to close the overlay.
   handleSearchToggle();
 };
 
 /**
- * A handler that opens and closes the theme overlay.
+ * A handler that calls "toggleOverlay" to open or close the theme overlay.
  */
 const handleThemeSettings = () => {
-  // Check if overlay is open and close if true, open if not.
   toggleOverlay(elements.settings.overlay);
 };
 
