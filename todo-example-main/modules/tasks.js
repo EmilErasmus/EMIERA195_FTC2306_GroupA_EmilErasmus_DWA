@@ -1,9 +1,9 @@
 /* eslint-disable import/extensions */
 // @ts-check
 
-import { state, Task } from './modules/state.js';
+import { state, Task } from './state.js';
 
-import { getHtml, doesHtmlExit } from './modules/helpers.js';
+import { doesHtmlExit, getHtml } from './helpers.js';
 
 /**
  * @param {String} id
@@ -56,9 +56,6 @@ const updateHtmlTask = (id, changes) => {
   }
 };
 
-window.addEventListener('error', () => {
-  document.body.innerHTML = 'Something went wrong. Please refresh';
-});
-
-addTaskToHtml('test');
-updateHtmlTask('test', {});
+export const addTask = ()  => {
+  
+};
