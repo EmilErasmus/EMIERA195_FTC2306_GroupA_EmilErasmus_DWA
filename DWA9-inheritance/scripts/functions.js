@@ -6,9 +6,6 @@ import {
   authors,
 } from './data.js';
 
-// // "FRAGMENT" variable houses each book element on the page.
-// const FRAGMENT = document.createDocumentFragment();
-
 /**
  * This object gets and houses all the html elements used in this file for easy
  * access.
@@ -25,15 +22,15 @@ export const elements = {
     message: document.querySelector('[data-list-message]'),
     button: document.querySelector('[data-list-button]'),
   },
-  preview: {
-    overlay: document.querySelector('[data-list-active]'),
-    blur: document.querySelector('[data-list-blur]'),
-    image: document.querySelector('[data-list-image]'),
-    title: document.querySelector('[data-list-title]'),
-    subtitle: document.querySelector('[data-list-subtitle]'),
-    description: document.querySelector('[data-list-description]'),
-    close: document.querySelector('[data-list-close]'),
-  },
+  // preview: {
+  //   overlay: document.querySelector('[data-list-active]'),
+  //   blur: document.querySelector('[data-list-blur]'),
+  //   image: document.querySelector('[data-list-image]'),
+  //   title: document.querySelector('[data-list-title]'),
+  //   subtitle: document.querySelector('[data-list-subtitle]'),
+  //   description: document.querySelector('[data-list-description]'),
+  //   close: document.querySelector('[data-list-close]'),
+  // },
   search: {
     overlay: document.querySelector('[data-search-overlay]'),
     form: document.querySelector('[data-search-form]'),

@@ -12,6 +12,8 @@ import {
   createBookElements, addSelectOptions, clearList,
 } from './functions.js';
 
+import '../components/book-preview.js';
+
 /*
 TOTAL_BOOKS_SHOWN keeps track of the books displayed on the page and is
 incremented by 1 each time a new book is added. */
@@ -80,6 +82,53 @@ const handleAddBooks = () => {
   // Update "data-list-button" (Show more) to reflect the number of books left.
   updateShowMore(books);
 };
+
+// class Preview {
+//   constructor(values, event) {
+//     this.values = values;
+//     this.event = event;
+//   }
+
+//   createPreview() {
+//     if (this.event.target) {
+//       const targetOrder = this.event.target.closest('.preview');
+//       const {
+//         overlay, image, blur, title, subtitle, description,
+//       } = this.values.preview;
+
+//       overlay.close();
+
+//       if (targetOrder) {
+//         overlay.show();
+
+//         const previewImage = targetOrder.querySelector('.preview__image');
+//         const previewTitle = targetOrder.querySelector('.preview__title').innerText;
+//         const previewAuthor = targetOrder.querySelector('.preview__author').innerText;
+//         const previewDescription = targetOrder.querySelector('#description').innerText;
+//         const previewDateText = targetOrder.querySelector('#date').innerText;
+
+//         const previewSrc = previewImage.src;
+
+//         image.src = previewSrc;
+//         blur.src = previewSrc;
+//         title.innerText = previewTitle;
+//         subtitle.innerText = `${previewAuthor} (${previewDateText.slice(0, 4)})`;
+//         description.innerText = previewDescription;
+//       }
+//     }
+//   }
+// }
+
+// /**
+//  * A handler that fire whenever a book is clicked. It creates a new instance of
+//  * Preview and calls the createPreview method.
+//  *
+//  * @param {Event} event
+//  */
+// const handlePreview = (event) => {
+//   const previewCreator = new Preview(elements, event);
+//   previewCreator.createPreview();
+// };
 
 /**
  * A handler that calls "toggleOverlay" to open or close the search overlay.
