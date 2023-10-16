@@ -3,13 +3,13 @@
 
 import { state, Task } from './state.js';
 
-import { doesHtmlExit, getHtml } from './helpers.js';
+import { doesHtmlExist, getHtml } from './helpers.js';
 
 /**
  * @param {String} id
  */
 const addTaskToHtml = (id) => {
-  if (doesHtmlExit('task', id)) {
+  if (doesHtmlExist('task', id)) {
     throw new Error('Task with that id already added.');
   }
 
@@ -56,6 +56,7 @@ const updateHtmlTask = (id, changes) => {
   }
 };
 
-export const addTask = ()  => {
-  
-};
+/**
+ * @param {Omit<Props, 'completed'>}
+ */
+export const createTask = (props)  => {};

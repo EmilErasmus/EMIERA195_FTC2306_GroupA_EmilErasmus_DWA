@@ -28,7 +28,7 @@ export const getHtml = (dataAttr, value) => {
  * @param {String} [value]
  * @returns {Boolean}
  */
-export const doesHtmlExit = (dataAttr, value) => {
+export const doesHtmlExist = (dataAttr, value) => {
   const selector = value
     ? `[data-${dataAttr}='${value}']`
     : `[data-${dataAttr}]`;
