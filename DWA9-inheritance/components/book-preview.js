@@ -1,5 +1,4 @@
 /* eslint-disable import/extensions */
-// @ts-check
 
 import { elements } from '../scripts/functions.js';
 
@@ -174,6 +173,7 @@ template.innerHTML = `
           height: 100vh;
           width: 100vw;
         }
+
         @keyframes enter {
           from {
             transform: translateY(10rem);
@@ -220,10 +220,9 @@ customElements.define(
 const bookPreviewElement = document.querySelector('book-preview');
 
 // Access the Shadow DOM of the 'book-preview' element
-// @ts-ignore
-const shadowRoot = bookPreviewElement.shadowRoot;
+const { shadowRoot } = bookPreviewElement;
 
-// Select the <dialog> element and its children within the Shadow DOM
+// Select the <book-preview> element and its children within the Shadow DOM
 const previewElements = {
   overlay: shadowRoot.querySelector('[data-list-active]'),
   blur: shadowRoot.querySelector('[data-list-blur]'),
@@ -233,8 +232,6 @@ const previewElements = {
   description: shadowRoot.querySelector('[data-list-description]'),
   close: shadowRoot.querySelector('[data-list-close]'),
 };
-
-// Now you have references to all the elements within the Shadow DOM of the 'book-preview' component
 
 /**
  * A handler function that fires whenever handlePreview is run. It's function is
@@ -253,14 +250,12 @@ const createPreview = (values) => (event) => {
       overlay, image, blur, title, subtitle, description,
     } = values;
 
-    if (overlay.open) {
-      overlay.open = false;
-    }
+    overlay.close();
 
     if (targetOrder) {
       // overlay.open = true;
       overlay.show();
-      console.log('hello');
+
       const previewImage = targetOrder.querySelector('.preview__image');
       const previewTitle = targetOrder.querySelector('.preview__title').innerText;
       const previewAuthor = targetOrder.querySelector('.preview__author').innerText;
@@ -277,8 +272,6 @@ const createPreview = (values) => (event) => {
     }
   }
 };
-
-// const handlePreview = console.log('hello') //createPreview(previewElements);
 
 elements.main.items.addEventListener('click', createPreview(previewElements));
 previewElements.close.addEventListener('click', createPreview(previewElements));
