@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tally Count</title>
+
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.10.0/cdn/themes/light.css"
+    />
+    <script
+      type="module"
+      src="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.10.0/cdn/shoelace-autoloader.js"
+    ></script>
+
+    <script src="scripts.js" type="module" defer></script>
+
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <header class="header">
+      <h1 class="header__title">Tally Count</h1>
+    </header>
+
+    <input class="counter__value" data-num readonly value="0" />
+    <sl-button-group label="Alignment">
+      <sl-button size="large" pill data-subtract>-</sl-button>
+      <sl-button size="large" pill data-reset>Reset</sl-button>
+      <sl-button size="large" pill data-add>+</sl-button>
+    </sl-button-group>
+  </body>
+</html>
