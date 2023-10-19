@@ -9,21 +9,7 @@ const elements = {
   reset: document.querySelector('[data-reset]'),
 };
 
-console.log(elements);
-// const updataColour = () => {
-//   const value = parseInt(elements.num.value)
-//   const colourSteps = 250 / (MAX_NUMBER - MIN_NUMBER)
-
-//   const maxDistance = MAX_NUMBER - value
-//   const minDistance = value - MIN_NUMBER
-
-//   const red = maxDistance * colourSteps
-//   const green = minDistance * colourSteps
-
-//   elements.num.style.color = `rgb(${red}, ${green}, 40)`;
-// };
-
-const subtractHandler = () => {
+const handleSubtract = () => {
   const newValue = parseInt(elements.num.value, 10) - STEP_AMOUNT;
   elements.num.value = newValue;
 
@@ -33,11 +19,9 @@ const subtractHandler = () => {
   if (elements.num.value <= MIN_NUMBER) {
     elements.subtract.disabled = true;
   }
-
-  // updataColour()
 };
 
-const addHandler = () => {
+const handleAdd = () => {
   const newValue = parseInt(elements.num.value, 10) + STEP_AMOUNT;
   elements.num.value = newValue;
 
@@ -47,18 +31,14 @@ const addHandler = () => {
   if (newValue >= MAX_NUMBER) {
     elements.add.disabled = true;
   }
-
-  // updataColour()
 };
 
 const handleReset = () => {
   elements.num.value = 0;
 };
 
-elements.subtract.addEventListener('click', subtractHandler);
+elements.subtract.addEventListener('click', handleSubtract);
 
-elements.add.addEventListener('click', addHandler);
+elements.add.addEventListener('click', handleAdd);
 
 elements.reset.addEventListener('click', handleReset);
-
-// updataColour()
