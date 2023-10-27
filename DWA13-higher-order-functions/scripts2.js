@@ -34,15 +34,28 @@ console.log(
     return `${result}, ${val.product}`;
   }, ''),
 
-  products.reduce((result, val) => {
-    if (parseInt(val.price, 10) === 8) {
-      return val.product;
-    }
-    if (parseInt(val.price, 10) === 2) {
-      return `${result} and ${val.product}`;
-    }
-    return `Highest: ${result}. Lowest: banana.`;
-  }, ''),
+  products.reduce(
+    (result, { product, price }) => {
+      const numericPrice = parseFloat(price);
+
+      if (!isNaN(numericPrice)) {
+        if (numericPrice > result.highest.price) {
+          result.highest = { product, price: numericPrice };
+        }
+
+        if (numericPrice < result.lowest.price) {
+          result.lowest = { product, price: numericPrice };
+        }
+      }
+
+      return result;
+    },
+    {
+      highest: { price: -Infinity },
+      lowest: { price: Infinity },
+    },
+  ),
+  (resultString = `Highest: ${result.highest.product}. Lowest: ${result.lowest.product}.`),
 );
 
 // console.log(convertedPrices);
