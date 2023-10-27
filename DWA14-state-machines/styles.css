@@ -1,0 +1,21 @@
+:root {
+  --color-green: #31c48d;
+  --color-white: #fff;
+  --color-dark-grey: #33333d;
+  --color-medium-grey: #424250;
+  --color-light-grey:  #d2d6dc;
+  --color-light-red: #f2dede;;
+  --color-dark-red: #a94442;;
+}
+
+body {
+  margin: 0;
+  background: var(--color-medium-grey);
+  color: var(--color-white);
+  font-family: Roboto, Arial, Helvetica, sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  height: 100%;
+}
