@@ -17,8 +17,8 @@ const results = {
   sortedProvinces: provinces.toSorted(),
   noCapeArr: (provinces.filter((val) => !val.toLowerCase().includes('cape'))).length,
   containsS: names.map((name) => name.toLowerCase().split('').some((char) => char === 's')),
-  residence: names.reduce((result, name, index) => {
-    result[name] = provinces[index];
+  residence: names.reduce((result, current, index) => {
+    result[current] = provinces[index];
     return result;
   }, {}),
 };

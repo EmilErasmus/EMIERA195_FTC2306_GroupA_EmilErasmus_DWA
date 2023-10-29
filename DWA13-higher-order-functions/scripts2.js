@@ -7,11 +7,6 @@ const products = [
   { product: 'tea', price: '' },
 ];
 
-// const convertedPrices = (products
-//   .filter((product) => product.price !== '' && !Number.isNaN(Number(product.price)))
-//   .map((product) => ({ ...product, price: Number(product.price) })))
-//   .reduce((total, product) => total + product.price, 0);
-
 console.log(
   products.forEach((val) => {
     console.log(val.product);
@@ -34,28 +29,60 @@ console.log(
     return `${result}, ${val.product}`;
   }, ''),
 
-  products.reduce(
-    (result, { product, price }) => {
-      const numericPrice = parseFloat(price);
+  products.reduce((total, current, index, arr) => {
+    if (index === arr.length - 2) {
+      total += `${current.product} and `;
+    } else if (index === arr.length - 1) {
+      total += current.product;
+    } else {
+      total += `${current.product}, `;
+    }
+    return total;
+  }, ''),
 
-      if (!isNaN(numericPrice)) {
-        if (numericPrice > result.highest.price) {
-          result.highest = { product, price: numericPrice };
+  (() => {
+    const res = products.reduce(
+      (result, current) => {
+        const numPrice = parseFloat(current.price);
+
+        if (!isNaN(numPrice)) {
+          if (numPrice > result.highest) {
+            result.highest = numPrice;
+            result.highProd = current.product;
+          }
+
+          if (numPrice < result.lowest) {
+            result.lowest = numPrice;
+            result.lowProd = current.product;
+          }
         }
 
-        if (numericPrice < result.lowest.price) {
-          result.lowest = { product, price: numericPrice };
-        }
+        return result;
+      },
+      {
+        highest: 0,
+        lowest: 100,
+        highProd: '',
+        lowProd: '',
+      },
+    );
+
+    return `Highest: ${res.highProd}. Lowest: ${res.lowProd}`;
+  })(),
+
+  products.reduce((acc, product) => {
+    const transformedProduct = Object.entries(product).reduce((obj, [key, value]) => {
+      if (key === 'product') {
+        obj.name = value;
+      } else if (key === 'price') {
+        obj.cost = value;
+      } else {
+        obj[key] = value;
       }
+      return obj;
+    }, {});
 
-      return result;
-    },
-    {
-      highest: { price: -Infinity },
-      lowest: { price: Infinity },
-    },
-  ),
-  (resultString = `Highest: ${result.highest.product}. Lowest: ${result.lowest.product}.`),
+    acc.push(transformedProduct);
+    return acc;
+  }, []),
 );
-
-// console.log(convertedPrices);

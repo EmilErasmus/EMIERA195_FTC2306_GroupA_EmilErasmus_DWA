@@ -67,6 +67,7 @@ class MyCounter extends LitElement {
   constructor() {
     super();
     this.count = 0;
+    this.state = 'normal';
   }
 
   render() {
